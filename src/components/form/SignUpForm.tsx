@@ -15,6 +15,8 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton';
+// import Router from 'next/router'
+import { useRouter } from 'next/navigation';
 
 const FormSchema = z
   .object({
@@ -42,8 +44,25 @@ const SignUpForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    const router = useRouter()
+    const response = await fetch('/api/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      }),
+    })
+
+    if (response.ok) {
+      router.push('/sigh-in')
+    } else {
+      console.error('Error signing up')
+    }
   };
 
   return (
