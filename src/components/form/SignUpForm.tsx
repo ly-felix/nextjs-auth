@@ -34,6 +34,7 @@ const FormSchema = z
   });
 
 const SignUpForm = () => {
+  const router = useRouter()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,7 +46,6 @@ const SignUpForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    const router = useRouter()
     const response = await fetch('/api/user', {
       method: 'POST',
       headers: {
@@ -59,7 +59,7 @@ const SignUpForm = () => {
     })
 
     if (response.ok) {
-      router.push('/sigh-in')
+      router.push('/sign-in')
     } else {
       console.error('Error signing up')
     }
@@ -76,7 +76,7 @@ const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder='johndoe' {...field} />
+                  <Input placeholder='username' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
