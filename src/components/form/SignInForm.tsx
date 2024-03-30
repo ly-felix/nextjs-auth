@@ -22,9 +22,22 @@ import { useToast } from "@/components/ui/use-toast";
 const FormSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must have than 8 characters"),
+    // .string()
+    // .min(8, "Password must have at least 8 characters")
+    // .regex(/[a-z]/, "Password must contain at least one lowercase character",
+    // )
+    // .refine((password) => /[A-Z]/.test(password), {
+    //   message: "Password must contain at least one uppercase character",
+    // })
+    // .refine((password) => /[0-9]/.test(password), {
+    //   message: "Password must contain at least one digit character",
+    // })
+    // .refine((password) => /[^a-zA-Z0-9]/.test(password), {
+    //   message: "Password must contain at least one special character",
+    // }),
+  .string()
+  .min(1, "Password is required")
+  // .min(8, "Password must have than 8 characters"),
 });
 
 const SignInForm = () => {
@@ -49,7 +62,7 @@ const SignInForm = () => {
       toast({
         title: "Erroe",
         description: "Something went wrong",
-        variant: "destructive"
+        variant: "destructive",
       });
     } else {
       router.push("/admin");
