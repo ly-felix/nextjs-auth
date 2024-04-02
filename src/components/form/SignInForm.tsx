@@ -60,7 +60,7 @@ const SignInForm = () => {
 
     if (signInData?.error) {
       toast({
-        title: "Erroe",
+        title: "Error",
         description: "Something went wrong",
         variant: "destructive",
       });
