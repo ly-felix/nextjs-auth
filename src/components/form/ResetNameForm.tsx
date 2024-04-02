@@ -1,7 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useRef } from "react";
-import { db } from "@/lib/db";
 import { useToast } from "@/components/ui/use-toast";
 import "@/styles/forms.css"
 
@@ -10,13 +9,21 @@ function ResetNameForm() {
   const { toast } = useToast();
   const { data: session } = useSession();
   async function submitHandler(event: any) {
+    const email = session?.user.email;
     console.dir(session)
     event.preventDefault();
     if (NewNameRef.current?.value) {
       const enteredNewName = NewNameRef.current.value;
-      const existingUserByUsername = await db.user.findUnique({
-        where: { email: session?.user.email as string},
-      });    } else {
+      const response = await fetch("/api/resetname", {
+        method: "POST",
+        body: JSON.stringify({ name: enteredNewName, email: email }),
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      const data = await response.json();
+      console.log(data);
+    } else {
       toast({
         title: "Error",
         description: "please write a name",
