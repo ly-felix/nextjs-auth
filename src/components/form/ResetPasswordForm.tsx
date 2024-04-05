@@ -1,5 +1,5 @@
 "use client";
-import { useSession } from "next-auth/react";
+
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -15,58 +15,63 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import GoogleSignInButton from "../GoogleSignInButton";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 
 const FormSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Invalid email"),
-  password: z
-    // .string()
-    // .min(8, "Password must have at least 8 characters")
-    // .regex(/[a-z]/, "Password must contain at least one lowercase character",
-    // )
-    // .refine((password) => /[A-Z]/.test(password), {
-    //   message: "Password must contain at least one uppercase character",
-    // })
-    // .refine((password) => /[0-9]/.test(password), {
-    //   message: "Password must contain at least one digit character",
-    // })
-    // .refine((password) => /[^a-zA-Z0-9]/.test(password), {
-    //   message: "Password must contain at least one special character",
-    // }),
-    .string()
-    .min(1, "Password is required"),
-  // .min(8, "Password must have than 8 characters"),
+  oldpassword: z.string().min(1, "oldpassword is required"),
+  newpassword: z.string().min(1, "newpassword is required"),
+  //后期需要加上限制. 如长度等
+  confirmpassword: z.string().min(1, "confirmpassword is required"),
 });
 
-const SignInForm = () => {
+const ResetPasswordForm = ({ email }: { email: any }) => {
   const router = useRouter();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      oldpassword: "",
+      newpassword: "",
+      confirmpassword: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    const signInData = await signIn("credentials", {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    });
-
-    if (signInData?.error) {
+    // const signInData = await signIn("credentials", {
+    //   email: values.email,
+    //   password: values.password,
+    //   redirect: false,
+    // });
+    if (values.newpassword !== values.confirmpassword) {
       toast({
-        title: "Erroe",
-        description: "Something went wrong",
+        title: "Error",
+        description: "Newpasswords do not match",
         variant: "destructive",
       });
     } else {
-      router.push("/admin");
-      router.refresh();
+      const response = await fetch("/api/resetpassword", {
+        method: "POST",
+        body: JSON.stringify({ email, values }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        toast({
+          title: "Error",
+          description: "Something went wrong, please check your old password",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Password Changed",
+          description: "Password Changed",
+        });
+        router.push("/admin");
+        router.refresh();
+      }
     }
   };
 
@@ -76,14 +81,14 @@ const SignInForm = () => {
         <div className="space-y-2">
           <FormField
             control={form.control}
-            name="password"
+            name="oldpassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Old Password</FormLabel>
+                <FormLabel>oldpassword</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="Old Password"
+                    placeholder="Enter your old password"
                     {...field}
                   />
                 </FormControl>
@@ -93,14 +98,14 @@ const SignInForm = () => {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="newpassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>New Password</FormLabel>
+                <FormLabel>newpassword</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="New Password"
+                    placeholder="Enter your new password"
                     {...field}
                   />
                 </FormControl>
@@ -110,14 +115,14 @@ const SignInForm = () => {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="confirmpassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Retype New Password</FormLabel>
+                <FormLabel>confirmpassword</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="Retype New Password"
+                    placeholder="Enter your new password again"
                     {...field}
                   />
                 </FormControl>
@@ -127,11 +132,11 @@ const SignInForm = () => {
           />
         </div>
         <Button className="w-full mt-6" type="submit">
-          Sign in
+          Change Password
         </Button>
       </form>
     </Form>
   );
 };
 
-export default SignInForm;
+export default ResetPasswordForm;

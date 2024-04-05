@@ -2,7 +2,7 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { db } from "@/lib/db";
 import ResetNameForm from "@/components/form/ResetNameForm";
-import { useSession } from 'next-auth/react'
+import ResetPasswordForm from "@/components/form/ResetPasswordForm";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
@@ -13,7 +13,8 @@ const page = async () => {
       const existingUserByUsername = await db.user.findUnique({
         where: { username: session?.user.username },
       });
-      if (false) { //!existingUserByUsername?.emailVerified
+      if (false) {
+        //!existingUserByUsername?.emailVerified
         return (
           <h2 className="text-2xl">
             Email&Password User {session?.user.username}, please check your
@@ -27,8 +28,10 @@ const page = async () => {
               Hello, Email&Password User {session?.user.username}!{" "}
             </h2>
             <h2 className="text-2xl">Your email is {session?.user.email}</h2>
-            <h2 className="text-2xl">Your name is {session?.user.name? session?.user.name : `not yet assigned` }</h2>
-            <ResetNameForm />
+            <ResetNameForm email={session?.user.email} />
+            <div className="w-full">
+              <ResetPasswordForm email={session?.user.email} />
+            </div>
           </>
         );
       }
@@ -41,8 +44,10 @@ const page = async () => {
         <>
           <h2 className="text-2xl">Hello, Google User {session?.user.name}!</h2>
           <h2 className="text-2xl">Your email is {session?.user.email}</h2>
-          <h2 className="text-2xl">Your name is {session?.user.name} </h2>
-          <ResetNameForm />
+          <ResetNameForm email={session?.user.email} />
+          <div className="w-full">
+            <ResetPasswordForm email={session?.user.email} />
+          </div>
         </>
       );
     }
