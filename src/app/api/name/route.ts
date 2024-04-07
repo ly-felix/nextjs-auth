@@ -5,7 +5,7 @@ export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
     
-    console.dir("what post got", body);
+    // console.dir("what post got", body);
     const {email} = body
     const rep = await db.user.findUnique({
       where: { email: email },

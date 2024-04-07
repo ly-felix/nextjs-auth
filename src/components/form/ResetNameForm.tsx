@@ -46,7 +46,7 @@ function ResetNameForm({ email }: { email: any }) {
           "Content-Type": "application/json",
         },
       });
-      const data = await response.json();
+      const body = await response.json();
       // console.dir(data);
       toast({
         title: "name changed successful",

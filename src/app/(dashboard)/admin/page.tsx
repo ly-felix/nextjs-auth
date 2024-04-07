@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { db } from "@/lib/db";
 import ResetNameForm from "@/components/form/ResetNameForm";
 import ResetPasswordForm from "@/components/form/ResetPasswordForm";
+import Dashboard from "@/components/form/Dashborad";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
@@ -31,6 +32,7 @@ const page = async () => {
             <ResetNameForm email={session?.user.email} />
             <div className="w-full">
               <ResetPasswordForm email={session?.user.email} />
+              <Dashboard email={session?.user.email} />
             </div>
           </>
         );
@@ -47,6 +49,7 @@ const page = async () => {
           <ResetNameForm email={session?.user.email} />
           <div className="w-full">
             <ResetPasswordForm email={session?.user.email} />
+            <Dashboard email={session?.user.email} />
           </div>
         </>
       );
