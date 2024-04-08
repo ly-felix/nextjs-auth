@@ -5,24 +5,10 @@ import React from "react";
 import ResetNameForm from "@/components/form/ResetNameForm";
 import ResetPasswordForm from "@/components/form/ResetPasswordForm";
 import Dashboard from "@/components/form/Dashborad";
-import sendEmail from "@/lib/sendemail";
-import { Button } from "@/components/ui/button";
-import { randomUUID } from "crypto";
-
-
+import ResendEmailButton from "@/components/ResendEmailButton";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
-  // const {data : session} = useSession()
-
-  const resendHandler: any = async () => {
-      const token = await db.activateToken.create({
-      data: { userId: session?.user.id as string, token: `${randomUUID()}${randomUUID()}` },
-    });
-    // https://vercel.com/docs/projects/environment-variables/system-environment-variables VERCEL_URL
-    const sendText = `Hello ${session?.user.username}, please activate your account by clicking this link: http://localhost:3000/activate/${token.token}`;
-    const res = await sendEmail(session?.user.email as string, sendText);
-  } 
 
   if (session?.user) {
     if (session?.user.username) {
@@ -36,9 +22,7 @@ const page = async () => {
               Email&Password User {session?.user.username}, please check your
               email and verify!
             </h2>
-            <Button onClick={resendHandler} className="w-full">
-              Resend Email Verification
-            </Button>
+            <ResendEmailButton email={session?.user.email} />
           </>
         );
       } else {
