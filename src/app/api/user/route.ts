@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     // https://vercel.com/docs/projects/environment-variables/system-environment-variables VERCEL_URL
     const sendText = `Hello ${username}, please activate your account by clicking this link: http://localhost:3000/activate/${token.token}`;
     const res = await sendEmail(email, sendText);
-    console.log(res);
+    // console.log(res);
 
     const { password: newUserPassword, ...rest } = newUser;
     return NextResponse.json(

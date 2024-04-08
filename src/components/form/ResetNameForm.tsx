@@ -68,9 +68,9 @@ function ResetNameForm({ email }: { email: any }) {
       {/* <h2 className="text-2xl">Your email is {email}</h2> */}
 
       <h2 className="text-2xl">
-        Your name is {userName ? userName : `not yet assigned`}
+        Your name is {userName ? userName : `not yet assigned`} (Name and
+        username are different)
       </h2>
-      <h2 className="text-2xl">(Name and username are different)</h2>
       <form className="form" onSubmit={submitHandler}>
         <div>
           <label className="control" htmlFor="new-name">
