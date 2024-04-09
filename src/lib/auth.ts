@@ -93,12 +93,12 @@ export const authOptions: NextAuthOptions = {
         const existingUser = await db.user.findUnique({
           where: { email: user.email as string },
         });
-
-        await db.user.update({
-          where: { email: existingUser?.email as string },
-          data: { loginCount: { increment: 1 } },
-        });
-      
+        if (existingUser) {
+          await db.user.update({
+            where: { email: existingUser?.email as string },
+            data: { loginCount: { increment: 1 } },
+          });
+        }
       return true;
     },
   },
