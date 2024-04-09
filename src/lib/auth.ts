@@ -90,14 +90,14 @@ export const authOptions: NextAuthOptions = {
       };
     },
     async signIn({ user, account, profile, email, credentials}) {
-      if (!account) {
+      if (!email) {
         await db.user.update({
           where: { email: user.email as string },
           data: { loginCount: { increment: 1 } },
         });
       } else {
         await db.user.update({
-          where: { id: account.userId as string },
+          where: { id: account?.userId as string },
           data: { loginCount: { increment: 1 } },
         });
       }
