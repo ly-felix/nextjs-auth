@@ -75,10 +75,12 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      await db.user.update({
-        where: { email: session.user.email as string},
-        data: { lastActiveSession: new Date()},
-      });
+      if (session.user) {
+        await db.user.update({
+          where: { email: session.user.email as string },
+          data: { lastActiveSession: new Date() },
+        });
+      }
       return {
         ...session,
         user: {
