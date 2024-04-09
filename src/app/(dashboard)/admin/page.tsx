@@ -1,11 +1,11 @@
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { db } from "@/lib/db";
 import React from "react";
 import ResetNameForm from "@/components/form/ResetNameForm";
 import ResetPasswordForm from "@/components/form/ResetPasswordForm";
 import Dashboard from "@/components/form/Dashborad";
 import ResendEmailButton from "@/components/ResendEmailButton";
+import { db } from "@/lib/db";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
@@ -18,7 +18,7 @@ const page = async () => {
       if (!existingUserByUsername?.active) {
         return (
           <>
-            <h2 className="text-2xl">
+            <h2>
               Email&Password User {session?.user.username}, please check your
               email and verify!
             </h2>
@@ -28,7 +28,7 @@ const page = async () => {
       } else {
         return (
           <>
-            <h2 className="text-2xl">
+            <h2>
               Hello, Email&Password User {session?.user.username}! Your email is{" "}
               {session?.user.email}
             </h2>
@@ -47,8 +47,8 @@ const page = async () => {
 
       return (
         <>
-          <h2 className="text-2xl">Hello, Google User {session?.user.name}!</h2>
-          <h2 className="text-2xl">Your email is {session?.user.email}</h2>
+          <h2>Hello, Google User {session?.user.name}!</h2>
+          <h2>Your email is {session?.user.email}</h2>
           <ResetNameForm email={session?.user.email} />
           <div className="w-full">
             <ResetPasswordForm email={session?.user.email} />

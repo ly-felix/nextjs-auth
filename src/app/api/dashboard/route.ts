@@ -42,7 +42,7 @@ export const POST = async (req: NextRequest) => {
       totalUsersActive7day: totalUsersActive7day,
     };
 
-    return NextResponse.json({ message: "message got", body }, { status: 201 });
+    return NextResponse.json({ message: "dashboard message got", body }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { message: "something went wrong" },

@@ -65,22 +65,14 @@ function ResetNameForm({ email }: { email: any }) {
 
   return (
     <>
-      {/* <h2 className="text-2xl">Your email is {email}</h2> */}
-
-      <h2 className="text-2xl">
+      <h2>
         Your name is {userName ? userName : `not yet assigned`} (Name and
         username are different)
       </h2>
       <form className="form" onSubmit={submitHandler}>
-        <div>
           <label className="control" htmlFor="new-name">
-            New Name
-          </label>
-          <input id="new-name" ref={NewNameRef} />
-        </div>
-        <div>
-          <button className="action">Change Name</button>
-        </div>
+            New Name: 
+          </label><input id="new-name" ref={NewNameRef} /><button className="action">Change Name</button>
       </form>
     </>
   );
