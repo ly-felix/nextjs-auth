@@ -75,10 +75,12 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      // await db.user.update({
-      //   where: { email: session.user.email as string},
-      //   data: { lastActiveSession: new Date()},
-      // });
+      if (session) {
+        await db.user.update({
+          where: { email: session.user.email as string },
+          data: { lastActiveSession: new Date() },
+        });
+      }
       return {
         ...session,
         user: {
@@ -87,13 +89,13 @@ export const authOptions: NextAuthOptions = {
         },
       };
     },
-    async signIn({ user }) {
-      // if (user) {
-      //   await db.user.update({
-      //     where: { email: user.email as string },
-      //     data: { loginCount: { increment: 1 } },
-      //   });
-      // }
+    async signIn({ email }) {
+      if (email) {
+        await db.user.update({
+          where: { email: email as string },
+          data: { loginCount: { increment: 1 } },
+        });
+      }
       return true;
     },
   },
