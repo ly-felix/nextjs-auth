@@ -17,7 +17,7 @@ export const POST = async (req: NextRequest) => {
       },
     });
     // https://vercel.com/docs/projects/environment-variables/system-environment-variables VERCEL_URL
-    const sendText = `Hello ${user?.username}, please activate your account by clicking this link: http://localhost:3000/activate/${token.token}`;
+    const sendText = `Hello ${user?.username}, please activate your account by clicking this link: https://nextjs-auth-pink-two.vercel.app/activate/${token.token}`;
     const res = await sendEmail(user?.email as string, sendText);
 
     return NextResponse.json({ message: "Email resent" }, { status: 201 });

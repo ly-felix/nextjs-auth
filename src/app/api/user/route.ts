@@ -58,7 +58,7 @@ export async function POST(req: Request) {
       data: { userId: newUser.id, token: `${randomUUID()}${randomUUID()}` },
     });
     // https://vercel.com/docs/projects/environment-variables/system-environment-variables VERCEL_URL
-    const sendText = `Hello ${username}, please activate your account by clicking this link: http://localhost:3000/activate/${token.token}`;
+    const sendText = `Hello ${username}, please activate your account by clicking this link: https://nextjs-auth-pink-two.vercel.app/activate/${token.token}`;
     const res = await sendEmail(email, sendText);
     // console.log(res);
 

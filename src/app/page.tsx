@@ -15,10 +15,10 @@ export default async function Home() {
         open my dashboard{" "}
       </Link>
 
-      <h2>Client Session</h2>
+      {/* <h2>Client Session</h2>
       <User />
       <h2>Server Session</h2>
-      {JSON.stringify(session)}
+      {JSON.stringify(session)} */}
     </div>
   );
 }
