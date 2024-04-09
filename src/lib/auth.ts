@@ -75,10 +75,10 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      await db.user.update({
-        where: { email: session.user.email as string},
-        data: { lastActiveSession: new Date()},
-      });
+      // await db.user.update({
+      //   where: { email: session.user.email as string},
+      //   data: { lastActiveSession: new Date()},
+      // });
       return {
         ...session,
         user: {
@@ -88,10 +88,10 @@ export const authOptions: NextAuthOptions = {
       };
     },
     async signIn({user}) {
-      await db.user.update({
-        where: { email: user.email as string},
-        data: { loginCount: { increment: 1 }},
-      });
+      // await db.user.update({
+      //   where: { email: user.email as string},
+      //   data: { loginCount: { increment: 1 }},
+      // });
       return true;}
   },
 };
