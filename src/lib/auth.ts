@@ -88,12 +88,12 @@ export const authOptions: NextAuthOptions = {
       };
     },
     async signIn({ user }) {
-      if (user) {
-        await db.user.update({
-          where: { email: user.email as string },
-          data: { loginCount: { increment: 1 } },
-        });
-      }
+      // if (user) {
+      //   await db.user.update({
+      //     where: { email: user.email as string },
+      //     data: { loginCount: { increment: 1 } },
+      //   });
+      // }
       return true;
     },
   },
