@@ -88,7 +88,7 @@ export const authOptions: NextAuthOptions = {
       };
     },
     async signIn({ user }) {
-      if (user.email) {
+      if (user) {
         await db.user.update({
           where: { email: user.email as string },
           data: { loginCount: { increment: 1 } },
