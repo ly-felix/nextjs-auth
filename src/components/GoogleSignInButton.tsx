@@ -7,7 +7,7 @@ interface GoogleSignInButtonProps {
 }
 const GoogleSignInButton: FC<GoogleSignInButtonProps> = ({ children }) => {
   const loginWithGoogle = () =>
-    signIn("google", { callbackUrl: "http://localhost:3000/admin" });
+    signIn("google", { callbackUrl: "https://nextjs-auth-pink-two.vercel.app/admin" });
 
   return (
     <Button onClick={loginWithGoogle} className="w-full">
