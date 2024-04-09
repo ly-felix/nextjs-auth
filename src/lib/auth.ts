@@ -89,18 +89,16 @@ export const authOptions: NextAuthOptions = {
         },
       };
     },
-    async signIn({ user, account, profile, email, credentials}) {
-      if (user.username) {
-        await db.user.update({
+    async signIn({ user }) {
+        const existingUser = await db.user.findUnique({
           where: { email: user.email as string },
-          data: { loginCount: { increment: 1 } },
         });
-      } else {
+
         await db.user.update({
-          where: { id: account?.userId as string },
+          where: { email: existingUser?.email as string },
           data: { loginCount: { increment: 1 } },
         });
-      }
+      
       return true;
     },
   },
