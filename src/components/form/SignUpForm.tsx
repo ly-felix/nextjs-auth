@@ -24,22 +24,23 @@ const FormSchema = z
     username: z.string().min(1, "Username is required").max(100),
     email: z.string().min(1, "Email is required").email("Invalid email"),
     password: z
-      // .string()
-      // .min(8, "Password must have at least 8 characters")
-      // .refine((password) => /[a-z]/.test(password), {
-      //   message: "Password must contain at least one uppercase character",
-      // })      .refine((password) => /[A-Z]/.test(password), {
-      //   message: "Password must contain at least one uppercase character",
-      // })
-      // .refine((password) => /[0-9]/.test(password), {
-      //   message: "Password must contain at least one digit character",
-      // })
-      // .refine((password) => /[^a-zA-Z0-9]/.test(password), {
-      //   message: "Password must contain at least one special character",
-      // }),
-    .string()
-    .min(1, 'Password is required')
-    .min(8, 'Password must have than 8 characters'),
+      .string()
+      .min(8, "Password must have at least 8 characters")
+      .refine((password) => /[a-z]/.test(password), {
+        message: "Password must contain at least one uppercase character",
+      })
+      .refine((password) => /[A-Z]/.test(password), {
+        message: "Password must contain at least one uppercase character",
+      })
+      .refine((password) => /[0-9]/.test(password), {
+        message: "Password must contain at least one digit character",
+      })
+      .refine((password) => /[^a-zA-Z0-9]/.test(password), {
+        message: "Password must contain at least one special character",
+      }),
+    // .string()
+    // .min(1, 'Password is required')
+    // .min(8, 'Password must have than 8 characters'),
     confirmPassword: z.string().min(1, "Password confirmation is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {

@@ -95,7 +95,7 @@ export const authOptions: NextAuthOptions = {
         });
         if (existingUser) {
           await db.user.update({
-            where: { email: existingUser?.email as string },
+            where: { email: existingUser.email as string },
             data: { loginCount: { increment: 1 } },
           });
         }

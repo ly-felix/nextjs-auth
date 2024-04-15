@@ -20,8 +20,22 @@ import { useToast } from "@/components/ui/use-toast";
 
 const FormSchema = z.object({
   oldpassword: z.string().min(1, "oldpassword is required"),
-  newpassword: z.string().min(1, "newpassword is required"),
-  //后期需要加上限制. 如长度等
+  newpassword: z
+    //  z.string().min(1, "newpassword is required"),
+    .string()
+    .min(8, "Password must have at least 8 characters")
+    .refine((password) => /[a-z]/.test(password), {
+      message: "Password must contain at least one uppercase character",
+    })
+    .refine((password) => /[A-Z]/.test(password), {
+      message: "Password must contain at least one uppercase character",
+    })
+    .refine((password) => /[0-9]/.test(password), {
+      message: "Password must contain at least one digit character",
+    })
+    .refine((password) => /[^a-zA-Z0-9]/.test(password), {
+      message: "Password must contain at least one special character",
+    }),
   confirmpassword: z.string().min(1, "confirmpassword is required"),
 });
 
