@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { hash } from "bcryptjs";
+import { hash, compare } from "bcryptjs";
 import * as z from "zod";
 
 const FormSchema = z.object({
@@ -19,10 +19,13 @@ export const POST = async (req: NextRequest) => {
     const existingUserByEmail = await db.user.findUnique({
       where: { email: email },
     });
-
-    const hashedoldpassword = await hash(oldpassword, 10);
+    console.log(existingUserByEmail);
     const hashedNewPassword = await hash(newpassword, 10);
-    if (hashedoldpassword !== (existingUserByEmail?.password as string)) {
+    const passwordMatch = await compare(
+      oldpassword,
+      existingUserByEmail?.password as string 
+    );
+    if (!passwordMatch) {
       return NextResponse.json(
         { message: "oldpassword is incorrect" },
         { status: 400 }

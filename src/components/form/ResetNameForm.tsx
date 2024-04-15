@@ -49,8 +49,8 @@ function ResetNameForm({ email }: { email: any }) {
       const body = await response.json();
       // console.dir(data);
       toast({
-        title: "name changed successful",
-        description: "name changed",
+        title: "name changed successfully",
+        description: "name changed, please refresh the page",
       });
       router.push("/admin");
       router.refresh();
@@ -70,9 +70,11 @@ function ResetNameForm({ email }: { email: any }) {
         username are different)
       </h2>
       <form className="form" onSubmit={submitHandler}>
-          <label className="control" htmlFor="new-name">
-            New Name: 
-          </label><input id="new-name" ref={NewNameRef} /><button className="action">Change Name</button>
+        <label className="control" htmlFor="new-name">
+          New Name:
+        </label>
+        <input id="new-name" ref={NewNameRef} />
+        <button className="action">Change Name</button>
       </form>
     </>
   );

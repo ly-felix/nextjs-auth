@@ -13,15 +13,14 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import Link from "next/link";
-import GoogleSignInButton from "../GoogleSignInButton";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 
 const FormSchema = z.object({
   oldpassword: z.string().min(1, "oldpassword is required"),
   newpassword: z
-    //  z.string().min(1, "newpassword is required"),
+    // .string().min(1, "newpassword is required"),
+    
     .string()
     .min(8, "Password must have at least 8 characters")
     .refine((password) => /[a-z]/.test(password), {
