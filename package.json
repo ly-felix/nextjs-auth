@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "next-swagger-doc-cli": "next-swagger-doc-cli"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
