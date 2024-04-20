@@ -1,6 +1,28 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * @swagger
+ * /api/activate:
+ *   post:
+ *     description: Activate user account
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               token:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User activated successfully
+ *       404:
+ *         description: Token not found
+ *       500:
+ *         description: Something went wrong
+ */
 export async function POST(req: NextRequest, res: NextResponse) {
   const { token } = await req.json();
   console.log(token);
@@ -36,7 +58,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     console.error("Error activating user:", error);
     return NextResponse.json(
       { message: "Something went wrong" },
-      { status: 200 }
+      { status: 500 }
     );
   }
 }

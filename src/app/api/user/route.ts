@@ -18,6 +18,32 @@ const userSchema = z.object({
     .min(8, "Password must have than 8 characters"),
 });
 
+/**
+ * @swagger
+ * /api/user:
+ *   post:
+ *     description: Register a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *       409:
+ *         description: User or username already exists
+ *       500:
+ *         description: Something went wrong
+ */
 export async function POST(req: Request) {
   try {
     const body = await req.json();

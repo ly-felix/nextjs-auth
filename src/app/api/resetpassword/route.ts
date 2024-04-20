@@ -3,6 +3,37 @@ import { db } from "@/lib/db";
 import { hash, compare } from "bcryptjs";
 import * as z from "zod";
 
+/**
+ * @swagger
+ * /api/resetpassword:
+ *   post:
+ *     description: Reset user's password
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               values:
+ *                 type: object
+ *                 properties:
+ *                   oldpassword:
+ *                     type: string
+ *                   newpassword:
+ *                     type: string
+ *                   confirmpassword:
+ *                     type: string
+ *     responses:
+ *       201:
+ *         description: Password reset successfully
+ *       400:
+ *         description: Incorrect old password
+ *       500:
+ *         description: Something went wrong
+ */
 const FormSchema = z.object({
   oldpassword: z.string().min(1, "oldpassword is required"),
   newpassword: z.string().min(1, "newpassword is required"),
