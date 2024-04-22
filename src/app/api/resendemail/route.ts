@@ -3,26 +3,6 @@ import { db } from "@/lib/db";
 import { randomUUID } from "crypto";
 import sendEmail from "@/lib/sendemail";
 
-/**
- * @swagger
- * /api/resendemail:
- *   post:
- *     description: Resend activation email
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *     responses:
- *       201:
- *         description: Email resent successfully
- *       500:
- *         description: Something went wrong
- */
 export const POST = async (req: NextRequest) => {
   try {
     const data = await req.json();

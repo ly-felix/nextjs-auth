@@ -1,39 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { hash, compare } from "bcryptjs";
+import { hash } from "bcryptjs";
 import * as z from "zod";
 
-/**
- * @swagger
- * /api/resetpassword:
- *   post:
- *     description: Reset user's password
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               values:
- *                 type: object
- *                 properties:
- *                   oldpassword:
- *                     type: string
- *                   newpassword:
- *                     type: string
- *                   confirmpassword:
- *                     type: string
- *     responses:
- *       201:
- *         description: Password reset successfully
- *       400:
- *         description: Incorrect old password
- *       500:
- *         description: Something went wrong
- */
 const FormSchema = z.object({
   oldpassword: z.string().min(1, "oldpassword is required"),
   newpassword: z.string().min(1, "newpassword is required"),
@@ -50,13 +19,10 @@ export const POST = async (req: NextRequest) => {
     const existingUserByEmail = await db.user.findUnique({
       where: { email: email },
     });
-    console.log(existingUserByEmail);
+
+    const hashedoldpassword = await hash(oldpassword, 10);
     const hashedNewPassword = await hash(newpassword, 10);
-    const passwordMatch = await compare(
-      oldpassword,
-      existingUserByEmail?.password as string 
-    );
-    if (!passwordMatch) {
+    if (hashedoldpassword !== (existingUserByEmail?.password as string)) {
       return NextResponse.json(
         { message: "oldpassword is incorrect" },
         { status: 400 }

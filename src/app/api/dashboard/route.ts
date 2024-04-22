@@ -1,26 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-/**
- * @swagger
- * /api/dashboard:
- *   post:
- *     description: Returns dashboard data
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *     responses:
- *       201:
- *         description: Dashboard data retrieved successfully
- *       500:
- *         description: Something went wrong
- */
 export const POST = async (req: NextRequest) => {
   try {
     const todayStart = new Date();
